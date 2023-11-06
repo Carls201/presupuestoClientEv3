@@ -4,7 +4,7 @@ import { ingresarUsuario } from '../../redux/loginSlice';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './Login.module.css';
-
+import { saveToken } from '../../API/auth';
 
 
 const Login = () => {
@@ -32,16 +32,20 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(ingresarUsuario(user));
+
+    if(usuario && usuario.data) {
+      saveToken(usuario.data);
+      
+    }
+
   }
 
   const renderFeedback = () => {
     if(error) {
-      //return console.log(error.message);
       return <p className={styles.errorMsg}>{error.message}</p>;
     }
   }
 
-  console.log(loginState);
 
   return (
     <div className={styles.loginContainer}>
