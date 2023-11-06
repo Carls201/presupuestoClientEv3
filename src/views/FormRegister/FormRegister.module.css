@@ -1,0 +1,77 @@
+.loginContainer {
+    background-color: #FBFBFA;
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 400px;
+    margin: 5rem auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .loginTitle {
+    color: #1B1B1B;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .label {
+    color: #2D3435;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ABBBB0;
+    border-radius: 4px;
+    background-color: #FFF;
+  }
+  
+  .loginButton {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #EB6B2F;
+    color: #FFF;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .loginButton:hover,
+  .loginButton:focus {
+    background-color: #F34C55;
+  }
+  
+  .registerLink {
+    padding: 0.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    background-color: #2D3435;
+    color: #FBFBFA;
+    margin-top: 1rem;
+  }
+  
+  .registerLink:hover,
+  .registerLink:focus {
+    background-color: #1B1B1B;
+  }
+
+.input,
+.loginButton,
+.registerLink {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  width: 100%; /* Asegura que cada input ocupe todo el ancho disponible */
+}
+  
