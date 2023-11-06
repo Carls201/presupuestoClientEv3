@@ -4,7 +4,7 @@ import { ingresarUsuario } from '../../redux/loginSlice';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './Login.module.css';
-import { saveToken } from '../../API/auth';
+import { saveToken,getToken } from '../../API/auth';
 
 
 const Login = () => {
@@ -35,7 +35,6 @@ const Login = () => {
 
     if(usuario && usuario.data) {
       saveToken(usuario.data);
-      
     }
 
   }
