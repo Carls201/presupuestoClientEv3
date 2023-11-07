@@ -24,6 +24,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { cerrarSesion } from '../../redux/loginSlice'; // Importa la acción de cierre de sesión
+import { resetUsuario } from '../../redux/usuariosSlice';
 import styles from './NavBar.module.css';
 
 const Navbar = () => {
@@ -32,6 +33,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(cerrarSesion()); // Despacha la acción de cierre de sesión
+    dispatch(resetUsuario());
     navigate('/'); // Navega a la página de login
   };
 

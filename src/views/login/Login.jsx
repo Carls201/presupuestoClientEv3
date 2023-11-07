@@ -19,11 +19,16 @@ const Login = () => {
   const loginState = useSelector((state) => state.login);
   const { usuario, error, success, message } = loginState;
   
+  // console.log(loginState);
   useEffect(() => {
-    if(success){
+    if (success && usuario && usuario.data) {
+      saveToken(usuario.data); // Asegúrate de que estás pasando el token correcto.
       navigate('/home');
     }
-  },[success, navigate]);
+  },[usuario, success, navigate]);
+
+  
+  //---------------------------------------------
 
   const handleChange = (e) => {
     setUser({...user, [e.target.name]: e.target.value});
@@ -33,10 +38,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(ingresarUsuario(user));
 
-    if(usuario && usuario.data) {
-      saveToken(usuario.data);
-      
-    }
+    
 
   }
 
