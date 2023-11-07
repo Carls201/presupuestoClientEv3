@@ -1,21 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { crearMetaAhorro } from '../../redux/metaahorroSlice'
 import styles from './MetaAhorro.module.css';
 
 const MetaAhorro = () => {
   const [name, setName] = useState({
-    Name: ''
+    nombre: ''
   });
 
   const dispatch = useDispatch();
 
-  const metaAhorroState = useSelector((state) => state.metaAhorro);
+  const metaAhorroState = useSelector((state) => state.metaAhorro); 
   const {
     metaahorro,
     error,
     success,
     message } = metaAhorroState;
+
+
+  useEffect(() => {
+    
+      console.log(metaAhorroState);
+    
+  }, [message])
 
   const handleChange = (e) => {
     setName({...name,[e.target.name]:e.target.value});
@@ -25,7 +32,6 @@ const MetaAhorro = () => {
     e.preventDefault();
     // Aquí despacharías una acción de Redux o harías algún proceso con el nombre
     dispatch (crearMetaAhorro(name));
-    console.log(metaAhorroState);
   };
 
   return (
@@ -37,8 +43,8 @@ const MetaAhorro = () => {
           <input 
             className={styles.input}
             type="text"
-            name="name"
-            value={name.Name}
+            name="nombre"
+            value={name.nombre}
             onChange={handleChange}
           />
         </div>

@@ -38,13 +38,6 @@ const Login = () => {
     e.preventDefault();
     dispatch(ingresarUsuario(user));
 
-<<<<<<< HEAD
-    
-=======
-    if(usuario && usuario.data) {
-      saveToken(usuario.data);
-    }
->>>>>>> 96d7f4c71d6cd9a7f2e4b9f4397768f4b25191bc
 
   }
 

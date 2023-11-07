@@ -15,22 +15,22 @@ const FormModalEdit = ({ isOpen, onRequestClose, user, entidad }) => {
     const dispatch = useDispatch();
 
     const [users, setUser] = useState({
-        idUsuario: 38,
-        idRol: 1,
-        nombre: "string",
-        apellido: "string",
-        edad: 22,
-        direccion: "string",
-        email: "usuario1@mail.com",
-        pass: "1234"
+        idUsuario: '',
+        idRol: '',
+        nombre: '',
+        apellido: '',
+        edad: '',
+        direccion: '',
+        email: '',
+        pass: ''
       });
     user && console.log(user);
 
     useEffect(() => {
         if (user) {
             setUser({
-                id: user.id || '',
-                rol: user.rol || '',
+                idUsuario: user.id || '',
+                idRol: user.rol || '',
                 nombre: user.nombre || '',
                 apellido: user.apellido || '',
                 edad: user.edad || '',
