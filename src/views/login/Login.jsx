@@ -4,7 +4,7 @@ import { ingresarUsuario } from '../../redux/loginSlice';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './Login.module.css';
-import { saveToken } from '../../API/auth';
+import { saveToken,getToken } from '../../API/auth';
 
 
 const Login = () => {
@@ -38,7 +38,13 @@ const Login = () => {
     e.preventDefault();
     dispatch(ingresarUsuario(user));
 
+<<<<<<< HEAD
     
+=======
+    if(usuario && usuario.data) {
+      saveToken(usuario.data);
+    }
+>>>>>>> 96d7f4c71d6cd9a7f2e4b9f4397768f4b25191bc
 
   }
 
