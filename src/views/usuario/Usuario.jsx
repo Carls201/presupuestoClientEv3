@@ -58,6 +58,7 @@ const Usuario = () => {
     closeModal();
     };
 
+    console.log(usuarioState.usuarios);
     return (
         <div className={styles.tableContainer}>
             <h1 className={styles.tableTitle}>Usuarios</h1>
@@ -66,24 +67,22 @@ const Usuario = () => {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th className={styles.th}>ID</th>
-                        <th className={styles.th}>Rol</th>
-                        <th className={styles.th}>Nombre</th>
-                        <th className={styles.th}>Apellido</th>
-                        <th className={styles.th}>Edad</th>
-                        <th className={styles.th}>Correo</th>
-                        <th className={styles.th}>Opciones</th>
+                        {
+                            usuarioState.usuarios[0] && Object.keys(usuarioState.usuarios[0]).map((key) => {
+                                return <th key={key} className={styles.th}>{key}</th>
+                            })
+                        }
+                        <th className={styles.th}>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {usuarioState.usuarios.map((usuario) => (
                         <tr key={usuario.id} className={styles.tbodyTr}>
-                            <td className={styles.td}>{usuario.id}</td>
-                            <td className={styles.td}>{usuario.rol}</td>
-                            <td className={styles.td}>{usuario.nombre}</td>
-                            <td className={styles.td}>{usuario.apellido}</td>
-                            <td className={styles.td}>{usuario.edad}</td>
-                            <td className={styles.td}>{usuario.email}</td>
+                            {
+                                Object.values(usuario).map((value) =>{
+                                    return <td className={styles.td}>{value}</td>
+                                })
+                            }
                             <td className={styles.td}>
                                 <div className={styles.buttonContainer}>
                                     <button onClick={() => showModal(usuario)} className={styles.deleteButton}>Eliminar</button>
