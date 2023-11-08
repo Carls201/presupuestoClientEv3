@@ -32,7 +32,7 @@ export const deleteUsuario = async (id) => {
 }
 
 export const updateUsuario = async (usuario) => {
-  const response = await axios.put(`${API_URL}/usuario/${usuario.id}`, usuario, config);
+  const response = await axios.put(`${API_URL}/usuario/${usuario.idUsuario}`, usuario, config);
   return response.data;
 }
 

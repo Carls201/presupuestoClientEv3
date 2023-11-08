@@ -11,7 +11,7 @@ ReactModal.setAppElement('#root');
 // Modal.jsx
 // ... tus imports ...
 
-const Modal = ({ isOpen, onRequestClose, user, confirmDelete, entidad, accion}) => {
+const Modal = ({ isOpen, onRequestClose, user, idField, confirmDelete, entidad, accion}) => {
 
   const overlayClassName = `${styles.overlay} ${isOpen ? styles.enter : styles.exit}`;
   const contentClassName = `${styles.content} ${isOpen ? styles.enter : styles.exit}`;
@@ -35,10 +35,10 @@ const Modal = ({ isOpen, onRequestClose, user, confirmDelete, entidad, accion}) 
           <div className={styles.text}>
             {/* Aquí iría el texto del modal */}
             ¿Estás seguro de que quieres {accion} {entidad}?
-            <br/>ID del {entidad}: {user && user.id}
+            <br/>ID del {entidad}: {user && user[idField]}
           </div>
           <div className={styles.buttons}>
-            <button className={styles.button} onClick={()=>confirmDelete(user.id)}>Confirmar</button>
+            <button className={styles.button} onClick={()=>confirmDelete(user[idField])}>Confirmar</button>
           </div>
         </div>
 

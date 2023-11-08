@@ -5,12 +5,19 @@ import './index.css'
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { NextUIProvider } from '@nextui-org/react';
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <NextUIProvider>
+        <main className='dark text-foreground bd-background'>
+          <App />
+        </main>
+      </NextUIProvider>
     </BrowserRouter>
   </Provider>
 )
