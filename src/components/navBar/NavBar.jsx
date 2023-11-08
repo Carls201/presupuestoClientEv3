@@ -41,7 +41,7 @@ const Navbar = () => {
     <div className={styles.navbar}>
       {/* Tus otros NavLink aquí */}
         <NavLink to='/home' className={styles.navItem}>Inicio</NavLink>
-        <NavLink to='/roles' className={styles.navItem}>Roles</NavLink>
+        <NavLink to='/rol' className={styles.navItem}>Roles</NavLink>
         <NavLink to='/usuario' className={styles.navItem}>Usuarios</NavLink>
         <NavLink to='/ahorro' className={styles.navItem}>Ahorro</NavLink>
         <NavLink to='/metaahorro' className={styles.navItem}>MetaAhorro</NavLink>

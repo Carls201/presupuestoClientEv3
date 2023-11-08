@@ -5,6 +5,7 @@ import Home from './views/home/Home';
 import Usuario from './views/usuario/Usuario';
 import MetaAhorro from './views/MetaAhorro/MetaAhorro';
 import Navbar from './components/navBar/NavBar';
+import Rol from './views/rol/Rol';
 
 function App() {
   const location = useLocation();
@@ -19,6 +20,7 @@ function App() {
       <Route path='/home' element={<Home/>}/>
       <Route path='/usuario' element={<Usuario/>}/>
       <Route path='/metaahorro' element={<MetaAhorro/>}/>
+      <Route path='/rol' element={<Rol/>}/>
     </Routes>
     </>
   )

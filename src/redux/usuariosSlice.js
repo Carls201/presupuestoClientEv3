@@ -21,7 +21,7 @@ export const editarUsuario = createAsyncThunk(
   async (usuario, { rejectWithValue }) => {
     try {
       const response = await updateUsuario(usuario);
-      return response;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

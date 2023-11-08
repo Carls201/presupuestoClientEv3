@@ -89,7 +89,7 @@ const Usuario = () => {
             <Modal 
                 isOpen={isModalOpen} 
                 onRequestClose={closeModal} 
-                user={selectedUser} 
+                entity={selectedUser} 
                 idField="idUsuario"
                 confirmDelete={confirmDelete} 
                 entidad='usuario' 

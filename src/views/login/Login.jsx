@@ -47,6 +47,21 @@ const Login = () => {
     }
   },[usuario, success, navigate]);
 
+  useEffect(() => {
+    if(usuarioState.success){
+      setSelected('login');
+      setUserCreate({
+        Nombre: '',
+        Apellido: '',
+        Edad: '',
+        Direccion: '',
+        Email: '',
+        Pass: '',
+        IdRol: '',
+      });
+    }
+  }, [usuarioState])
+
   
 
   const handleChange = (e) => {
@@ -69,9 +84,7 @@ const Login = () => {
   const handleSubmitRegister = (e) =>{
     e.preventDefault();
     dispatch(crearUsuario(userCreate));
-    if(usuarioState.success){
-      setSelected('login');
-    }
+    
   };
 
   // const renderFeedback = () => {
