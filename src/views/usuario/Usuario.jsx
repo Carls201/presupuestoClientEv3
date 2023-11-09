@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsuarios, eliminarUsuario, editarUsuario } from '../../redux/usuariosSlice';
-import Modal from "../../components/modal/Modal";
+import ModalDelete from "../../components/modal/Modal";
 import FormModalEdit from "../../components/formEdit/FormEdit";
 import TableData from "../../components/table/Table";
 
@@ -86,7 +86,7 @@ const Usuario = () => {
 
             
 
-            <Modal 
+            <ModalDelete 
                 isOpen={isModalOpen} 
                 onRequestClose={closeModal} 
                 entity={selectedUser} 

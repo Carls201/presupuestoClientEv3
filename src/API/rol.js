@@ -12,8 +12,8 @@ const config = {
 const API_URL = 'https://localhost:44330/api';
 
 // CREAR ROL
-export const postUsuario = async (usuario) => {
-  const response = await axios.post(`${API_URL}/rol`, usuario);
+export const postRol = async (rol) => {
+  const response = await axios.post(`${API_URL}/rol`, rol, config);
   return response.data;
 };
 
@@ -31,7 +31,6 @@ export const deleteRol = async (id) => {
 
 // ACTUALIZAR ROL
 export const updateRol = async (rol) => {
-  console.log(rol);
   const response = await axios.put(`${API_URL}/rol/${rol.idRol}`, rol, config);
   return response.data;
 }

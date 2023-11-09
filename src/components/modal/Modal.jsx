@@ -11,7 +11,7 @@ ReactModal.setAppElement('#root');
 // Modal.jsx
 // ... tus imports ...
 
-const Modal = ({ isOpen, onRequestClose, entity, idField, confirmDelete, entidad, accion}) => {
+const ModalDelete = ({ isOpen, onRequestClose, entity, idField, confirmDelete, entidad, accion}) => {
 
   const overlayClassName = `${styles.overlay} ${isOpen ? styles.enter : styles.exit}`;
   const contentClassName = `${styles.content} ${isOpen ? styles.enter : styles.exit}`;
@@ -46,6 +46,6 @@ const Modal = ({ isOpen, onRequestClose, entity, idField, confirmDelete, entidad
     );
   }
   
-  export default Modal;
+  export default ModalDelete;
   
 

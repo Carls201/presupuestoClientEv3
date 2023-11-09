@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getRol, deleteRol, updateRol } from '../API/rol';
+import { getRol, deleteRol, updateRol, postRol } from '../API/rol';
 
 // BUSCAR ROLES
 export const fetchRoles = createAsyncThunk(
@@ -34,6 +34,19 @@ export const editarRol = createAsyncThunk(
       try {
         const response = await updateRol(rol);
         return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  );
+
+// CREAR ROL
+export const crearRol = createAsyncThunk(
+    'roles/crearRol',
+    async (rol, { rejectWithValue }) => {
+      try {
+        const data = await postRol(rol);
+        return data;
       } catch (error) {
         return rejectWithValue(error.response.data);
       }
@@ -88,6 +101,13 @@ const rolesSlice = createSlice({
             state.success = false;
             state.message = action.payload.Message;
         },
+
+        // Crear Usuario
+        [crearRol.fulfilled]: (state, action) => {
+            state.usuario = action.payload;
+            state.success = true;
+            state.message = 'Rol guardado';
+        }
     }
 })
 
