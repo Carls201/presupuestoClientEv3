@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRoles, eliminarRol, editarRol, crearRol } from '../../redux/rolSlice';
-import ModalDelete from "../../components/modal/Modal";
-import FormModalEdit from "../../components/formEdit/FormEdit";
-import TableData from "../../components/table/Table";
+import { fetchMetas, eliminarMeta, editarMeta, crearMeta } from '../redux/metaahorroSlice';
+import ModalDelete from "../components/modal/Modal";
+import FormModalEdit from "../components/formEdit/FormEdit";
+import TableData from "../components/table/Table";
 import {  Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, } from "@nextui-org/react";
-import DynamicForm from "../../components/DynamicForm/DynamicForm";
+import DynamicForm from "../components/DynamicForm/DynamicForm";
 
 
-const Rol = () => {
+const MetaAhorro = () => {
 
     const dispatch = useDispatch();
-    const rolState = useSelector((state) => state.roles);
+    const metaState = useSelector((state) => state.metas);
     
 
     // ESTADOS
@@ -22,13 +22,14 @@ const Rol = () => {
     const [selectedEdit, setSelectedEdit] = useState(null);
 
     const [formValues, setFormValues] = useState({
-        idRol: '',
-        rol1: ''
+        idMeta: '',
+        nombre: ''
     });
 
     useEffect(() => {
-        dispatch(fetchRoles());
-    }, [rolState.roles]);
+        dispatch(fetchMetas());
+    }, [metaState.metas]);
+
 
     // HANDLES
     const handleFieldChange = (e) => {
@@ -38,16 +39,15 @@ const Rol = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        dispatch(editarRol(formValues));
-        console.log(rolState);
+        dispatch(editarMeta(formValues));
         closeModalEdit();
     };
 
     // FUNCIONES
 
     // EDITAR
-    const showModalEdit = (rol) => {
-        setFormValues({...rol});
+    const showModalEdit = (data) => {
+        setFormValues({...data});
         setIsModalOpenEdit(true);
     };
 
@@ -57,8 +57,8 @@ const Rol = () => {
     };
 
     // ELIMINAR
-    const showModalDelete = (rol) => {
-        setSelectedDelete(rol);
+    const showModalDelete = (data) => {
+        setSelectedDelete(data);
         setIsModalOpenDelete(true);
     };
 
@@ -69,7 +69,7 @@ const Rol = () => {
 
     // CONFIRMAR
     const confirmDelete = (id) => {
-        dispatch(eliminarRol(id));
+        dispatch(eliminarMeta(id));
         closeModalDelete();
     };
 
@@ -78,15 +78,15 @@ const Rol = () => {
  
      // Guardar Rol
      const handleSave = (data, onClose) => {
-        dispatch(crearRol(data));
+        dispatch(crearMeta(data));
         onClose();
      };
 
      const {isOpen, onOpen, onOpenChange} = useDisclosure();
     return (
         <div>
-            <h1 className="my-5 text-center text-2xl">Roles</h1>
-            <Button className="ml-10 my-5" color="success" onPress={onOpen}>Agregar Rol</Button>
+            <h1 className="my-5 text-center text-2xl">Metas de Ahorro</h1>
+            <Button className="ml-10 my-5" color="success" onPress={onOpen}>Agregar Meta</Button>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
@@ -95,7 +95,7 @@ const Rol = () => {
                             <ModalBody>
                                 <DynamicForm
                                     formData={[
-                                        { name: 'rol1', label: 'Rol', type: 'text', defaultValue: '' },
+                                        { name: 'nombre', label: 'Meta', type: 'text', defaultValue: '' },
                                     ]}
 
                                     handleSave={handleSave}
@@ -108,8 +108,8 @@ const Rol = () => {
             </Modal>
 
             <TableData
-                data={rolState.roles}
-                idField="idRol"
+                data={metaState.metas}
+                idField="idMeta"
                 onEdit={showModalEdit}
                 onDelete={showModalDelete}
             />
@@ -118,9 +118,9 @@ const Rol = () => {
                 isOpen={isModalOpenDelete} 
                 onRequestClose={closeModalDelete} 
                 entity={selectedDelete} 
-                idField="idRol"
+                idField="idMeta"
                 confirmDelete={confirmDelete} 
-                entidad='rol1' 
+                entidad='Meta' 
                 accion='eliminar'
             />
 
@@ -128,18 +128,18 @@ const Rol = () => {
                 isOpen={isModalOpenEdit} 
                 onRequestClose={closeModalEdit} 
                 fields={[
-                    { name: 'idRol', label: 'ID Rol', type: 'number', readOnly: true },
-                    { name: 'rol1', label: 'Rol', type: 'text' },
+                    { name: 'idMeta', label: 'ID Meta', type: 'number', readOnly: true },
+                    { name: 'nombre', label: 'Meta', type: 'text' },
                 ]}
                 formValues={formValues}
                 handleChange={handleFieldChange}
                 handleSubmit={handleFormSubmit}
                 initialValues={selectedEdit}
-                entidad='Usuario'
+                entidad='Meta'
             />
 
         </div>
     );
 }
 
-export default Rol;
+export default MetaAhorro;

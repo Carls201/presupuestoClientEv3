@@ -3,13 +3,15 @@ import usuariosReducer from './usuariosSlice';
 import loginReducer from './loginSlice';
 import metaAhorroReducer from './metaahorroSlice';
 import rolReducer from './rolSlice';
+import ahorroSlice from './ahorroSlice';
 
 
 export const store = configureStore({
   reducer: {
     usuarios: usuariosReducer,
     login: loginReducer,
-    metaAhorro: metaAhorroReducer,
+    metas: metaAhorroReducer,
     roles: rolReducer,
+    ahorros: ahorroSlice
   },
 });

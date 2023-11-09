@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRoles, eliminarRol, editarRol, crearRol } from '../../redux/rolSlice';
-import ModalDelete from "../../components/modal/Modal";
-import FormModalEdit from "../../components/formEdit/FormEdit";
-import TableData from "../../components/table/Table";
+import { fetchAhorro, eliminarAhorro, editarAhorro, crearAhorro } from '../redux/ahorroSlice';
+import ModalDelete from "../components/modal/Modal";
+import FormModalEdit from "../components/formEdit/FormEdit";
+import TableData from "../components/table/Table";
 import {  Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, } from "@nextui-org/react";
-import DynamicForm from "../../components/DynamicForm/DynamicForm";
+import DynamicForm from "../components/DynamicForm/DynamicForm";
 
 
-const Rol = () => {
+const Ahorro = () => {
 
     const dispatch = useDispatch();
-    const rolState = useSelector((state) => state.roles);
+    const ahorroState = useSelector((state) => state.ahorros);
     
 
     // ESTADOS
@@ -22,13 +22,16 @@ const Rol = () => {
     const [selectedEdit, setSelectedEdit] = useState(null);
 
     const [formValues, setFormValues] = useState({
-        idRol: '',
-        rol1: ''
+        idAhorro: '',
+        idUsuario: '',
+        idMeta: '',
+        monto: ''
     });
 
     useEffect(() => {
-        dispatch(fetchRoles());
-    }, [rolState.roles]);
+        dispatch(fetchAhorro());
+    }, [ahorroState.ahorros]);
+
 
     // HANDLES
     const handleFieldChange = (e) => {
@@ -38,16 +41,15 @@ const Rol = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        dispatch(editarRol(formValues));
-        console.log(rolState);
+        dispatch(editarAhorro(formValues));
         closeModalEdit();
     };
 
     // FUNCIONES
 
     // EDITAR
-    const showModalEdit = (rol) => {
-        setFormValues({...rol});
+    const showModalEdit = (data) => {
+        setFormValues({...data});
         setIsModalOpenEdit(true);
     };
 
@@ -57,8 +59,8 @@ const Rol = () => {
     };
 
     // ELIMINAR
-    const showModalDelete = (rol) => {
-        setSelectedDelete(rol);
+    const showModalDelete = (data) => {
+        setSelectedDelete(data);
         setIsModalOpenDelete(true);
     };
 
@@ -69,7 +71,7 @@ const Rol = () => {
 
     // CONFIRMAR
     const confirmDelete = (id) => {
-        dispatch(eliminarRol(id));
+        dispatch(eliminarAhorro(id));
         closeModalDelete();
     };
 
@@ -78,15 +80,15 @@ const Rol = () => {
  
      // Guardar Rol
      const handleSave = (data, onClose) => {
-        dispatch(crearRol(data));
+        dispatch(crearAhorro(data));
         onClose();
      };
 
      const {isOpen, onOpen, onOpenChange} = useDisclosure();
     return (
         <div>
-            <h1 className="my-5 text-center text-2xl">Roles</h1>
-            <Button className="ml-10 my-5" color="success" onPress={onOpen}>Agregar Rol</Button>
+            <h1 className="my-5 text-center text-2xl">Ahorros</h1>
+            <Button className="ml-10 my-5" color="success" onPress={onOpen}>Agregar Ahorro</Button>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
@@ -95,7 +97,9 @@ const Rol = () => {
                             <ModalBody>
                                 <DynamicForm
                                     formData={[
-                                        { name: 'rol1', label: 'Rol', type: 'text', defaultValue: '' },
+                                        { name: 'idUsuario', label: 'IdUsuario', type: 'number', defaultValue: '' },
+                                        { name: 'idMeta', label: 'IdMeta', type: 'number', defaultValue: '' },
+                                        { name: 'monto', label: 'Monto', type: 'number', defaultValue: '' },
                                     ]}
 
                                     handleSave={handleSave}
@@ -108,8 +112,8 @@ const Rol = () => {
             </Modal>
 
             <TableData
-                data={rolState.roles}
-                idField="idRol"
+                data={ahorroState.ahorros}
+                idField="idAhorro"
                 onEdit={showModalEdit}
                 onDelete={showModalDelete}
             />
@@ -118,9 +122,9 @@ const Rol = () => {
                 isOpen={isModalOpenDelete} 
                 onRequestClose={closeModalDelete} 
                 entity={selectedDelete} 
-                idField="idRol"
+                idField="idAhorro"
                 confirmDelete={confirmDelete} 
-                entidad='rol1' 
+                entidad='Ahorro' 
                 accion='eliminar'
             />
 
@@ -128,18 +132,20 @@ const Rol = () => {
                 isOpen={isModalOpenEdit} 
                 onRequestClose={closeModalEdit} 
                 fields={[
-                    { name: 'idRol', label: 'ID Rol', type: 'number', readOnly: true },
-                    { name: 'rol1', label: 'Rol', type: 'text' },
+                    { name: 'idAhorro', label: 'ID Ahorro', type: 'number', readOnly: true },
+                    { name: 'idUsuario', label: 'ID Usuario', type: 'number' },
+                    { name: 'idMeta', label: 'ID Meta', type: 'number' },
+                    { name: 'monto', label: 'Monto', type: 'number' },
                 ]}
                 formValues={formValues}
                 handleChange={handleFieldChange}
                 handleSubmit={handleFormSubmit}
                 initialValues={selectedEdit}
-                entidad='Usuario'
+                entidad='Ahorro'
             />
 
         </div>
     );
 }
 
-export default Rol;
+export default Ahorro;

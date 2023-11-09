@@ -1,41 +1,37 @@
+// metaahorro.js
 import axios from "axios";
-import {getToken} from "./auth";
+import { getToken } from "./auth";
 const token = getToken();
 
 const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+  headers: {
+    Authorization: `Bearer ${token}`
   }
-  
-  const API_URL = 'https://localhost:44330/api';
-
-//GET
-export const getMetaAhorro = async() => {
-    const response = await axios.get(`${API_URL}/MetaAhorro`);
-    return response.data;
 }
 
-// POST
-export const postMetaAhorro = async (metaahorro) => {
-    const response = await axios.post(`${API_URL}/MetaAhorro`, metaahorro, config);
-    return response.data;
+const API_URL = 'https://localhost:44330/api';
+
+// CREAR META AHORRO
+export const postMetaAhorro = async (data) => {
+  const response = await axios.post(`${API_URL}/metaahorro`, data, config);
+  return response.data;
+};
+
+
+// OBTENER META AHORRO
+export const getMetaAhorro = async () => {
+  const response = await axios.get(`${API_URL}/metaahorro`, config);
+  return response.data;
 }
 
-// DELETE
-export const deleteMetaAhorro = async (idMetaAhorro) => {
-    const response = await axios.delete(`${API_URL}/MetaAhorro/${idMetaAhorro}`, config);
-    return response.data;
+// ELIMINAR META AHORRO
+export const deleteMetaAhorro = async (id) => {
+  const response = await axios.delete(`${API_URL}/metaahorro/${id}`, config);
+  return response.data;
 }
 
-//PUT
-export const putMetaAhorro = async (idMetaAhorro) => {
-    const response = await axios.put(`${API_URL}/MetaAhorro/${idMetaAhorro}`, config);
-    return response.data;
-}
-
-// GET POR ID
-export const getIdMetaAhorro = async (idMetaAhorro) => {
-    const response = await axios.get(`${API_URL}/MetaAhorro/${idMetaAhorro}`, config);
-    return response.data;
+// ACTUALIZAR META AHORRO
+export const updateMetaAhorro = async (data) => {
+  const response = await axios.put(`${API_URL}/metaahorro/${data.idMeta}`, data, config);
+  return response.data;
 }

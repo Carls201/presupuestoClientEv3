@@ -15,7 +15,6 @@ const TableData = ({ data, idField, onEdit, onDelete }) => {
 
     
     return (
-
         
         <div className='px-10'>
             <Table aria-label="Example static collection table">
