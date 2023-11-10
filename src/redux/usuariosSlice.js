@@ -20,6 +20,7 @@ export const editarUsuario = createAsyncThunk(
   'usuarios/editarUsuario',
   async (usuario, { rejectWithValue }) => {
     try {
+      console.log('Usuario a actualizar:', usuario);
       const response = await updateUsuario(usuario);
       return response.data;
     } catch (error) {
@@ -103,6 +104,7 @@ const usuariosSlice = createSlice({
 
     // Buscar Usuario
     [fetchUsuarios.fulfilled]: (state, action) => {
+     
       state.usuarios = action.payload;
       state.success = true;
       state.message = 'Usuarios cargados';

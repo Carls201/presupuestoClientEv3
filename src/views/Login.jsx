@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ingresarUsuario } from '../../redux/loginSlice';
-import { crearUsuario } from '../../redux/usuariosSlice';
+import { ingresarUsuario } from '../redux/loginSlice';
+import { crearUsuario } from '../redux/usuariosSlice';
 import { useNavigate } from 'react-router-dom';
-import { saveToken } from '../../API/auth';
+import { saveToken } from '../API/auth';
 import {Tabs, Tab, Input, Button, Card, CardBody, CardHeader} from "@nextui-org/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
@@ -25,9 +25,7 @@ const Login = () => {
     Edad: '',
     Direccion: '',
     Email: '',
-    Pass: '',
-    IdRol: '',
-
+    Pass: ''
   });
 
   const dispatch = useDispatch();

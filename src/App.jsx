@@ -1,11 +1,11 @@
 import './App.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Login from './views/login/Login';
-import Home from './views/home/Home';
-import Usuario from './views/usuario/Usuario';
+import Login from './views/Login';
+import Home from './views/Home';
+import Usuario from './views/Usuario';
 import MetaAhorro from './views/MetaAhorro';
 import Navbar from './components/navBar/NavBar';
-import Rol from './views/rol/Rol';
+import Rol from './views/Rol';
 import Ahorro from './views/Ahorro';
 
 function App() {

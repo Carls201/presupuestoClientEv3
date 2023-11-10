@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRoles, eliminarRol, editarRol, crearRol } from '../../redux/rolSlice';
-import ModalDelete from "../../components/modal/Modal";
-import FormModalEdit from "../../components/formEdit/FormEdit";
-import TableData from "../../components/table/Table";
+import { fetchRoles, eliminarRol, editarRol, crearRol } from '../redux/rolSlice';
+import ModalDelete from "../components/modal/Modal";
+import FormModalEdit from "../components/formEdit/FormEdit";
+import TableData from "../components/table/Table";
 import {  Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, } from "@nextui-org/react";
-import DynamicForm from "../../components/DynamicForm/DynamicForm";
+import DynamicForm from "../components/DynamicForm/DynamicForm";
 
 
 const Rol = () => {

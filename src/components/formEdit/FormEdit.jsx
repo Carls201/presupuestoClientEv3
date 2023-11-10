@@ -7,19 +7,40 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
     const overlayClassName = `${styles.overlay} ${isOpen ? styles.enter : styles.exit}`;
     const contentClassName = `${styles.content} ${isOpen ? styles.enter : styles.exit}`;
 
-    const inputElements = fields.map((field) => (
-        <div className={styles.contentInput} key={field.name}>
-            <label className={styles.label}>{field.label}</label>
-            <input
-                className={styles.input}
-                type={field.type}
-                name={field.name}
-                value={formValues[field.name] || ''}
-                onChange={handleChange}
-                readOnly={field.readOnly && true}
-            />
-        </div>
-    ));
+    const inputElements = fields.map((field) => {
+        if (field.type === 'select') {
+            return (
+                <div className={styles.contentInput} key={field.name}>
+                    <label className={styles.label}>{field.label}</label>
+                    <select
+                        className={styles.input}
+                        name={field.name}
+                        value={formValues[field.name] || 'default'}
+                        onChange={handleChange}
+                    >
+                        <option value="default" disabled>Seleccione un opcion</option>
+                        {field.options.map(option => (
+                            <option key={option.idRol} value={option.idRol}>{option.rol1}</option>
+                        ))}
+                    </select>
+                </div>
+            );
+        } else {
+            return (
+                <div className={styles.contentInput} key={field.name}>
+                    <label className={styles.label}>{field.label}</label>
+                    <input
+                        className={styles.input}
+                        type={field.type}
+                        name={field.name}
+                        value={formValues[field.name] || ''}
+                        onChange={handleChange}
+                        readOnly={field.readOnly && true}
+                    />
+                </div>
+            );
+        }
+    });
 
     return (
         <ReactModal

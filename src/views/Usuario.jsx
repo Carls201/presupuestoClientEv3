@@ -1,12 +1,14 @@
 // Usuario.jsx
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsuarios, eliminarUsuario, editarUsuario } from '../../redux/usuariosSlice';
-import ModalDelete from "../../components/modal/Modal";
-import FormModalEdit from "../../components/formEdit/FormEdit";
-import TableData from "../../components/table/Table";
+import { eliminarUsuario, editarUsuario, fetchUsuarios } from '../redux/usuariosSlice';
+import ModalDelete from "../components/modal/Modal";
+import FormModalEdit from "../components/formEdit/FormEdit";
+import TableData from "../components/table/Table";
+import { fetchRoles } from "../redux/rolSlice";
 
 const Usuario = () => {
+
 
     const [formValues, setFormValues] = useState({
         idUsuario: '',
@@ -19,10 +21,9 @@ const Usuario = () => {
         pass: '',
       });
 
-    const handleFieldChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues(prev => ({ ...prev, [name]: value }));
-    };
+
+
+      
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -30,8 +31,30 @@ const Usuario = () => {
         closeModalEdit();
     };
 
+
+    const handleFieldChange = (e) => {
+        const { name, value } = e.target;
+        
+        if (e.target.tagName === 'SELECT') {
+          // Convierte el value a entero antes de guardarlo
+          setFormValues(prev => ({
+            ...prev,
+            [name]: parseInt(value, 10) // Convierte el value a un entero y lo guarda en formValues bajo la clave 'rol'
+          }));
+        } else {
+          // Para otros inputs, solo guarda el value.
+          setFormValues(prev => ({ ...prev, [name]: value }));
+        }
+      };
+      
+      
+      
+      
+      
+
     const dispatch = useDispatch();
     const usuarioState = useSelector((state) => state.usuarios);
+    const rolState = useSelector(state => state.roles);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
@@ -39,14 +62,14 @@ const Usuario = () => {
     const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
     const [selectedUserEdit, setSelectedUserEdit] = useState(null);
 
-    useEffect(() => {
-        dispatch(fetchUsuarios()); // Despacha la acción para obtener los usuarios
-    }, [usuarioState.usuarios]);
+    useEffect(() => { dispatch(fetchUsuarios())}, [usuarioState])
+    useEffect(() => {dispatch(fetchRoles())}, []);
 
 
     //----------------------modalEdit-------------------------------------------------
     const showModalEdit = (usuario) => {
-        setFormValues({...usuario});
+        const {rol1, ...usuarioN} = usuario;
+        setFormValues({...usuarioN});
         setIsModalOpenEdit(true);
     };
 
@@ -100,7 +123,7 @@ const Usuario = () => {
                 onRequestClose={closeModalEdit} 
                 fields={[
                     { name: 'idUsuario', label: 'ID Usuario', type: 'number', readOnly: true },
-                    { name: 'idRol', label: 'Rol', type: 'number' },
+                    { name: 'idRol', label: 'Rol', type: 'select', options: rolState.roles },
                     { name: 'nombre', label: 'Nombre', type: 'text' },
                     { name: 'apellido', label: 'Apellido', type: 'text' },
                     { name: 'edad', label: 'Edad', type: 'number' },
