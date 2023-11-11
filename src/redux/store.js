@@ -4,6 +4,8 @@ import loginReducer from './loginSlice';
 import metaAhorroReducer from './metaahorroSlice';
 import rolReducer from './rolSlice';
 import ahorroSlice from './ahorroSlice';
+import fuenteSlice from './fuenteSlice';
+import ingresoSlice from './ingresoSlice';
 
 
 export const store = configureStore({
@@ -12,6 +14,8 @@ export const store = configureStore({
     login: loginReducer,
     metas: metaAhorroReducer,
     roles: rolReducer,
-    ahorros: ahorroSlice
+    ahorros: ahorroSlice,
+    fuentes: fuenteSlice,
+    ingresos: ingresoSlice,
   },
 });

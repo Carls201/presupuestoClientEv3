@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAhorro, eliminarAhorro, editarAhorro, crearAhorro } from '../redux/ahorroSlice';
+import { fetchIngreso, eliminarIngreso, editarIngreso, crearIngreso } from '../redux/ingresoSlice';
 import ModalDelete from "../components/modal/Modal";
 import FormModalEdit from "../components/formEdit/FormEdit";
 import TableData from "../components/table/Table";
 import {  Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import DynamicForm from "../components/DynamicForm/DynamicForm";
-import { fetchMetas } from "../redux/metaahorroSlice";
+import { fetchFuentes } from "../redux/fuenteSlice";
 import { meIdUsuario } from "../redux/usuariosSlice";
 
 
 
-const Ahorro = () => {
+const Ingreso = () => {
 
     const dispatch = useDispatch();
-    const ahorroState = useSelector((state) => state.ahorros);
+    const ingresoState = useSelector((state) => state.ingresos);
     const usuarioState = useSelector(state => state.usuarios);
-    const metaState = useSelector(state => state.metas);
+    const fuenteState = useSelector(state => state.fuentes);
 
     // ESTADOS
     const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -26,20 +26,21 @@ const Ahorro = () => {
     const [selectedEdit, setSelectedEdit] = useState(null);
 
     const [formValues, setFormValues] = useState({
-        idAhorro: '',
+        idIngreso: '',
         idUsuario: '',
-        idMeta: '',
+        idFuente: '',
         monto: ''
     });
 
     useEffect(() => {
-        dispatch(fetchAhorro());
-    }, [dispatch]);//ahorroState.ahorros
+        dispatch(fetchIngreso());
+    }, [ingresoState.ingresos]);
 
 
-
-    useEffect(() => { dispatch(fetchMetas()) }, [dispatch]);
-    useEffect(() => { dispatch(meIdUsuario()) }, [dispatch]);
+    useEffect(() => { dispatch(fetchIngreso()) }, []);
+    useEffect(() => { dispatch(meIdUsuario()) }, []);
+    useEffect(() => { dispatch(fetchFuentes()) }, []);
+    useEffect(() => { dispatch(fetchFuentes()) }, [fuenteState]);
 
     // HANDLES
     const handleFieldChange = (e) => {
@@ -59,7 +60,7 @@ const Ahorro = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        dispatch(editarAhorro(formValues));
+        dispatch(editarIngreso(formValues));
         closeModalEdit();
     };
 
@@ -90,7 +91,7 @@ const Ahorro = () => {
 
     // CONFIRMAR
     const confirmDelete = (id) => {
-        dispatch(eliminarAhorro(id));
+        dispatch(eliminarIngreso(id));
         closeModalDelete();
     };
 
@@ -98,30 +99,21 @@ const Ahorro = () => {
      // Guardar Ahorro
     const handleSave = (data, onClose) => {
         const newData = {...data, idUsuario: usuarioState.id}
-        dispatch(crearAhorro(newData));
+        dispatch(crearIngreso(newData));
         onClose();
     };
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-
-    const metaOptions = metaState.metas && Array.isArray(metaState.metas)
-        ? metaState.metas.map(meta => ({
-            id: meta.idMeta,
-            label: meta.nombre
-          }))
-        : [];
-
     
    
     
 
-// console.log(ahorroState.ahorros);
     
     return (
         <div>
-            <h1 className="my-5 text-center text-2xl">Ahorros</h1>
-            <Button className="ml-10 my-5" color="success" onPress={onOpen}>Agregar Ahorro</Button>
+            <h1 className="my-5 text-center text-2xl">Ingresos</h1>
+            <Button className="ml-10 my-5" color="success" onPress={onOpen}>Agregar Ingresos</Button>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
@@ -131,14 +123,15 @@ const Ahorro = () => {
                                 <DynamicForm
                                     formData={[
                                         
-                                        { name: 'IdMeta', label: 'Meta', type: 'select', options: metaOptions
-                                            
-                                         
+                                        { name: 'idFuente', label: 'Fuente', type: 'select', options: fuenteState.fuentes.map(fuente => ({
+                                            id: fuente.idFuente,
+                                            label: fuente.nombre
+                                        }) ) 
                                     },
                                         { name: 'monto', label: 'Monto', type: 'number', defaultValue: '' },
                                     ]}
 
-                                    handleSave={data => handleSave(data, onClose)}
+                                    handleSave={handleSave}
                                     onClose={onClose}
                                 />
                             </ModalBody>
@@ -148,8 +141,8 @@ const Ahorro = () => {
             </Modal>
 
             <TableData
-                data={ahorroState.ahorros}
-                idField="idAhorro"
+                data={ingresoState.ingresos}
+                idField="idIngreso"
                 onEdit={showModalEdit}
                 onDelete={showModalDelete}
             />
@@ -158,9 +151,9 @@ const Ahorro = () => {
                 isOpen={isModalOpenDelete} 
                 onRequestClose={closeModalDelete} 
                 entity={selectedDelete} 
-                idField="idAhorro"
+                idField="idIngreso"
                 confirmDelete={confirmDelete} 
-                entidad='Ahorro' 
+                entidad='Ingreso' 
                 accion='eliminar'
             />
 
@@ -168,30 +161,23 @@ const Ahorro = () => {
                 isOpen={isModalOpenEdit} 
                 onRequestClose={closeModalEdit} 
                 fields={[
-                    { name: 'idAhorro', label: 'ID Ahorro', type: 'number', readOnly: true },
-                    { 
-                        name: 'IdMeta', 
-                        label: 'Meta', 
-                        type: 'select', 
-                        options: metaState.metas && Array.isArray(metaState.metas)
-                          ? metaState.metas.map(meta => ({
-                              id: meta.idMeta,
-                              label: meta.nombre
-                            }))
-                          : []
-                    },
-                      
+                    { name: 'idIngreso', label: 'ID Ingreso', type: 'number', readOnly: true },
+                    { name: 'IdFuente', label: 'Fuente', type: 'select', options: fuenteState.fuentes.map(fuente => ({
+                        id: fuente.idFuente,
+                        label: fuente.nombre
+                    }) ) 
+                },
                     { name: 'monto', label: 'Monto', type: 'number' },
                 ]}
                 formValues={formValues}
                 handleChange={handleFieldChange}
                 handleSubmit={handleFormSubmit}
                 initialValues={selectedEdit}
-                entidad='Ahorro'
+                entidad='Ingreso'
             />
 
         </div>
     );
 }
 
-export default Ahorro;
+export default Ingreso;

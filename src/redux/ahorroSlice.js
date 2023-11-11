@@ -6,8 +6,9 @@ export const fetchAhorro = createAsyncThunk(
     'ahorros/fetchAhorros',
     async(_, { rejectWithValue }) => {
         try {
-            const data = await getAhorro();
-            return data.data;
+            const response = await getAhorro();
+            console.log(response.data);
+            return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -19,8 +20,8 @@ export const eliminarAhorro = createAsyncThunk(
     'ahorros/eliminarAhorro',
     async(id, { rejectWithValue }) => {
         try {
-            const data = await deleteAhorro(id);
-            return data.data;
+            const response = await deleteAhorro(id);
+            return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -33,6 +34,7 @@ export const editarAhorro = createAsyncThunk(
     async (ahorro, { rejectWithValue }) => {
       try {
         const response = await updateAhorro(ahorro);
+        console.log(response.data);
         return response.data;
       } catch (error) {
         return rejectWithValue(error.response.data);
@@ -46,6 +48,7 @@ export const crearAhorro = createAsyncThunk(
     async (ahorro, { rejectWithValue }) => {
       try {
         const data = await postAhorro(ahorro);
+        console.log(data);
         return data;
       } catch (error) {
         return rejectWithValue(error.response.data);
@@ -72,20 +75,35 @@ const ahorrrosSlice = createSlice({
 
         // Eliminar ahorro
         [eliminarAhorro.fulfilled]: (state, action) => {
-            state.ahorros = state.ahorros.filter(ahorro => ahorro.id !== action.payload);
+            state.ahorros = state.ahorros.filter(ahorro => ahorro.idAhorro !== action.payload);
             state.success = true;
             state.message = 'ahorro eliminado correctamente';
         },
 
+        
         // EDITAR ahorro
         [editarAhorro.fulfilled]: (state, action) => {
-            const index = state.ahorros.findIndex(ahorro => ahorro.id === action.payload.id);
+            const index = state.ahorros.findIndex(ahorro => ahorro.idAhorro === action.payload.idAhorro);
             if (index !== -1) {
-            state.ahorros[index] = action.payload;
+                // Crea un nuevo objeto excluyendo las propiedades con valores null.
+                const updatedAhorro = Object.entries(action.payload).reduce((newObj, [key, value]) => {
+                    if (value !== null) { // Solo incluye propiedades que no son null.
+                        newObj[key] = value;
+                    }
+                    return newObj;
+                }, {});
+        
+                // Actualiza el ahorro en el estado con el nuevo objeto sin propiedades null.
+                state.ahorros[index] = {
+                    ...state.ahorros[index],
+                    ...updatedAhorro
+                };
             }
             state.success = true;
-            state.message = 'ahorro actualizado correctamente';
+            state.message = 'Ahorro actualizado correctamente';
         },
+        
+
         [editarAhorro.rejected]: (state, action) => {
             state.error = action.payload;
             state.success = false;

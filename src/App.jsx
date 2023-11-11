@@ -8,6 +8,8 @@ import NavbarC from './components/navBar/NavBar';
 import Rol from './views/Rol';
 import Ahorro from './views/Ahorro';
 import { jwtDecode } from 'jwt-decode';
+import FuenteIngreso from './views/FuenteIngreso';
+import Ingreso from './views/Ingreso';
 
 function App() {
   const location = useLocation();
@@ -32,6 +34,8 @@ function App() {
 
       <Route path='/metaahorro' element={<MetaAhorro/>}/>
       <Route path='/ahorro' element={<Ahorro/>}/>
+      <Route path='/fuente' element={<FuenteIngreso/>}/>
+      <Route path='/ingreso' element={<Ingreso/>}/>
     </Routes>
     </>
   )

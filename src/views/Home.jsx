@@ -4,8 +4,6 @@ import { getToken } from "../API/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchRoles } from "../redux/rolSlice";
 import { fetchUsuarios } from "../redux/usuariosSlice";
-import { fetchMetas } from "../redux/metaahorroSlice";
-import { fetchAhorro } from "../redux/ahorroSlice";
 
 const Home = () =>{
     
@@ -14,13 +12,9 @@ const Home = () =>{
 
     const rolState = useSelector(state => state.roles);
     const usuarioState = useSelector(state => state.usuarios);
-    const metaState = useSelector(state => state.metas);
-    const ahorroState = useSelector(state => state.ahorros);
-    //console.log(rolState);
+    
     useEffect(() => {dispatch(fetchRoles())}, [rolState]);
     useEffect(() => {dispatch(fetchUsuarios())}, [usuarioState]);
-    useEffect(() => {dispatch(fetchMetas())}, [metaState]);
-    useEffect(() => {dispatch(fetchAhorro())}, [ahorroState]);
 
     useEffect(() => {
 
@@ -29,7 +23,7 @@ const Home = () =>{
             if (currentToken !== token) {
               setToken(currentToken);
             }
-          }, 1000); // Intervalo de 1 segundo
+          }, 1000);
 
         return () => clearInterval(intervalId);
 

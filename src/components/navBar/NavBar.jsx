@@ -33,6 +33,9 @@ const NavbarC = () => {
       
       <NavLink to='/ahorro' className={({ isActive }) => (isActive ? styles.active : styles.navItem)}>Ahorro</NavLink>
       <NavLink to='/metaahorro' className={({ isActive }) => (isActive ? styles.active : styles.navItem)}>MetaAhorro</NavLink>
+      <NavLink to='/fuente' className={({ isActive }) => (isActive ? styles.active : styles.navItem)}>FuenteIngreso</NavLink>
+      <NavLink to='/ingreso' className={({ isActive }) => (isActive ? styles.active : styles.navItem)}>Ingresos</NavLink>
+
       <button onClick={handleLogout} className={styles.navItem}>Salir</button>
     </div>
   );
