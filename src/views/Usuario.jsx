@@ -36,13 +36,13 @@ const Usuario = () => {
         const { name, value } = e.target;
         
         if (e.target.tagName === 'SELECT') {
-          // Convierte el value a entero antes de guardarlo
+         
           setFormValues(prev => ({
             ...prev,
-            [name]: parseInt(value, 10) // Convierte el value a un entero y lo guarda en formValues bajo la clave 'rol'
+            [name]: parseInt(value, 10) 
           }));
         } else {
-          // Para otros inputs, solo guarda el value.
+          
           setFormValues(prev => ({ ...prev, [name]: value }));
         }
       };
@@ -95,7 +95,7 @@ const Usuario = () => {
     closeModal();
     };
 
-    
+    // console.log(rolState.roles);
     return (
         <div>
             <h1>Usuarios</h1>
@@ -123,7 +123,11 @@ const Usuario = () => {
                 onRequestClose={closeModalEdit} 
                 fields={[
                     { name: 'idUsuario', label: 'ID Usuario', type: 'number', readOnly: true },
-                    { name: 'idRol', label: 'Rol', type: 'select', options: rolState.roles },
+                    { name: 'idRol', label: 'Rol', type: 'select', options: rolState.roles.data.map(rol => ({
+                        id: rol.idRol,
+                        label: rol.rol1
+                    })) 
+                },
                     { name: 'nombre', label: 'Nombre', type: 'text' },
                     { name: 'apellido', label: 'Apellido', type: 'text' },
                     { name: 'edad', label: 'Edad', type: 'number' },

@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { postUsuario, getUsuarios, deleteUsuario, updateUsuario } from '../API/usuario';
+import { getToken } from '../API/auth';
+import { jwtDecode } from "jwt-decode";
 
 
 // Eliminar Usuario
@@ -56,11 +58,26 @@ export const fetchUsuarios = createAsyncThunk(
   }
 );
 
+// Busxar token 
+export const meIdUsuario = createAsyncThunk(
+  'usuario/token',
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      const decodedToken = jwtDecode(token);
+      return decodedToken.IdUsuario;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const usuariosSlice = createSlice({
   name: 'usuarios',
   initialState: {
     usuarios: [],
     usuario: null,
+    id: null,
     error: null,
     success: false,
     message: '',
@@ -108,6 +125,13 @@ const usuariosSlice = createSlice({
       state.usuarios = action.payload;
       state.success = true;
       state.message = 'Usuarios cargados';
+    },
+
+    // Obtener token
+    [meIdUsuario.fulfilled]: (state, action) => {
+      state.id = action.payload;
+      state.success = true;
+      state.message = 'token encontrado';
     },
 
     // Crear Usuario

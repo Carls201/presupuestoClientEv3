@@ -4,15 +4,19 @@ import { fetchAhorro, eliminarAhorro, editarAhorro, crearAhorro } from '../redux
 import ModalDelete from "../components/modal/Modal";
 import FormModalEdit from "../components/formEdit/FormEdit";
 import TableData from "../components/table/Table";
-import {  Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, } from "@nextui-org/react";
+import {  Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import DynamicForm from "../components/DynamicForm/DynamicForm";
+import { fetchMetas } from "../redux/metaahorroSlice";
+import { meIdUsuario } from "../redux/usuariosSlice";
+
 
 
 const Ahorro = () => {
 
     const dispatch = useDispatch();
     const ahorroState = useSelector((state) => state.ahorros);
-    
+    const usuarioState = useSelector(state => state.usuarios);
+    const metaState = useSelector(state => state.metas);
 
     // ESTADOS
     const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -33,10 +37,25 @@ const Ahorro = () => {
     }, [ahorroState.ahorros]);
 
 
+    useEffect(() => { dispatch(fetchMetas()) }, []);
+    useEffect(() => { dispatch(meIdUsuario()) }, []);
+    useEffect(() => { dispatch(fetchMetas()) }, []);
+    useEffect(() => { dispatch(fetchMetas()) }, [metaState]);
+
     // HANDLES
     const handleFieldChange = (e) => {
         const { name, value } = e.target;
-        setFormValues(prev => ({ ...prev, [name]: value }));
+
+        if (e.target.tagName === 'SELECT') {
+         
+            setFormValues(prev => ({
+              ...prev,
+              [name]: parseInt(value, 10) 
+            }));
+          } else {
+            
+            setFormValues(prev => ({ ...prev, [name]: value }));
+          }
     };
 
     const handleFormSubmit = (e) => {
@@ -49,7 +68,8 @@ const Ahorro = () => {
 
     // EDITAR
     const showModalEdit = (data) => {
-        setFormValues({...data});
+        const {nombre, ...dataN } = data;
+        setFormValues({...dataN});
         setIsModalOpenEdit(true);
     };
 
@@ -75,16 +95,21 @@ const Ahorro = () => {
         closeModalDelete();
     };
 
+ 
+     // Guardar Ahorro
+    const handleSave = (data, onClose) => {
+        const newData = {...data, idUsuario: usuarioState.id}
+        dispatch(crearAhorro(newData));
+        onClose();
+    };
+
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
     
- 
-     // Guardar Rol
-     const handleSave = (data, onClose) => {
-        dispatch(crearAhorro(data));
-        onClose();
-     };
+   
+    
 
-     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    
     return (
         <div>
             <h1 className="my-5 text-center text-2xl">Ahorros</h1>
@@ -97,8 +122,12 @@ const Ahorro = () => {
                             <ModalBody>
                                 <DynamicForm
                                     formData={[
-                                        { name: 'idUsuario', label: 'IdUsuario', type: 'number', defaultValue: '' },
-                                        { name: 'idMeta', label: 'IdMeta', type: 'number', defaultValue: '' },
+                                        
+                                        { name: 'IdMeta', label: 'Meta', type: 'select', options: metaState.metas.map(meta => ({
+                                            id: meta.idMeta,
+                                            label: meta.nombre
+                                        }) ) 
+                                    },
                                         { name: 'monto', label: 'Monto', type: 'number', defaultValue: '' },
                                     ]}
 
@@ -133,8 +162,11 @@ const Ahorro = () => {
                 onRequestClose={closeModalEdit} 
                 fields={[
                     { name: 'idAhorro', label: 'ID Ahorro', type: 'number', readOnly: true },
-                    { name: 'idUsuario', label: 'ID Usuario', type: 'number' },
-                    { name: 'idMeta', label: 'ID Meta', type: 'number' },
+                    { name: 'IdMeta', label: 'Meta', type: 'select', options: metaState.metas.map(meta => ({
+                        id: meta.idMeta,
+                        label: meta.nombre
+                    }) ) 
+                },
                     { name: 'monto', label: 'Monto', type: 'number' },
                 ]}
                 formValues={formValues}

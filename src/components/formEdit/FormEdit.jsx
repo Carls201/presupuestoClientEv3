@@ -20,7 +20,7 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
                     >
                         <option value="default" disabled>Seleccione un opcion</option>
                         {field.options.map(option => (
-                            <option key={option.idRol} value={option.idRol}>{option.rol1}</option>
+                            <option key={option.id} value={option.id}>{option.label}</option>
                         ))}
                     </select>
                 </div>

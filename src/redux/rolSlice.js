@@ -7,7 +7,7 @@ export const fetchRoles = createAsyncThunk(
     async(_, { rejectWithValue }) => {
         try {
             const data = await getRol();
-            return data.data;
+            return data;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -20,7 +20,7 @@ export const eliminarRol = createAsyncThunk(
     async(id, { rejectWithValue }) => {
         try {
             const data = await deleteRol(id);
-            return data.data;
+            return data;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -69,7 +69,10 @@ const rolesSlice = createSlice({
             state.error = null;
             state.success = false;
             state.message = '';
-        }
+        },
+        resetErrorState: (state) => {
+            state.error = null;
+        },
     },
     extraReducers: {
         // BUSCAR USUARIO
@@ -81,9 +84,14 @@ const rolesSlice = createSlice({
 
         // Eliminar Usuario
         [eliminarRol.fulfilled]: (state, action) => {
-            state.roles = state.roles.filter(rol => rol.id !== action.meta.arg);
+            state.roles = state.roles.data.filter(rol => rol.id !== action.meta.arg);
             state.success = true;
             state.message = 'Rol eliminado correctamente';
+        },
+        [eliminarRol.rejected]: (state, action) => {
+            state.error = action.payload;
+            state.success = false;
+            state.message = action.payload.Message;
         },
 
         // EDITAR USUARIO
@@ -111,5 +119,5 @@ const rolesSlice = createSlice({
     }
 })
 
-export const { resetRol } = rolesSlice.actions;
+export const { resetRol, resetErrorState } = rolesSlice.actions;
 export default rolesSlice.reducer;

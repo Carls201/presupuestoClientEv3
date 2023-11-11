@@ -6,6 +6,8 @@ import FormModalEdit from "../components/formEdit/FormEdit";
 import TableData from "../components/table/Table";
 import {  Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, } from "@nextui-org/react";
 import DynamicForm from "../components/DynamicForm/DynamicForm";
+import { resetErrorState } from "../redux/rolSlice";
+import ErrorModal from "../components/ErrorModal";
 
 
 const Rol = () => {
@@ -21,6 +23,7 @@ const Rol = () => {
     const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
     const [selectedEdit, setSelectedEdit] = useState(null);
 
+
     const [formValues, setFormValues] = useState({
         idRol: '',
         rol1: ''
@@ -28,7 +31,9 @@ const Rol = () => {
 
     useEffect(() => {
         dispatch(fetchRoles());
-    }, [rolState.roles]);
+    }, [rolState]);
+
+    
 
     // HANDLES
     const handleFieldChange = (e) => {
@@ -39,7 +44,6 @@ const Rol = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         dispatch(editarRol(formValues));
-        console.log(rolState);
         closeModalEdit();
     };
 
@@ -67,12 +71,14 @@ const Rol = () => {
         setSelectedDelete(null);
     };
 
+    
+
     // CONFIRMAR
     const confirmDelete = (id) => {
+        console.log(rolState.error)
         dispatch(eliminarRol(id));
         closeModalDelete();
     };
-
 
     
  
@@ -83,6 +89,8 @@ const Rol = () => {
      };
 
      const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
+     //console.log(rolState.roles.data);
     return (
         <div>
             <h1 className="my-5 text-center text-2xl">Roles</h1>
@@ -91,7 +99,7 @@ const Rol = () => {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader> 
                             <ModalBody>
                                 <DynamicForm
                                     formData={[
@@ -108,7 +116,7 @@ const Rol = () => {
             </Modal>
 
             <TableData
-                data={rolState.roles}
+                data={rolState.roles.data}
                 idField="idRol"
                 onEdit={showModalEdit}
                 onDelete={showModalDelete}
@@ -137,6 +145,8 @@ const Rol = () => {
                 initialValues={selectedEdit}
                 entidad='Usuario'
             />
+
+            <ErrorModal/>
 
         </div>
     );
