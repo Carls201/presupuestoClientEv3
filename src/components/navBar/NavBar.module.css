@@ -18,5 +18,18 @@
     background-color: #2D3435; /* Color de fondo al pasar el ratón por encima */
     color: #F34C55; /* Color del texto al pasar el ratón por encima */
   }
+
+  .active{
+    background-color: #2D3435; /* Color de fondo al pasar el ratón por encima */
+    color: #F34C55; /* Color del texto al pasar el ratón por encima */
+    padding: 14px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+
+  .notActive{
+    color: #ABB6B0;
+  }
   
   

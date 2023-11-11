@@ -4,7 +4,7 @@ import Login from './views/Login';
 import Home from './views/Home';
 import Usuario from './views/Usuario';
 import MetaAhorro from './views/MetaAhorro';
-import Navbar from './components/navBar/NavBar';
+import NavbarC from './components/navBar/NavBar';
 import Rol from './views/Rol';
 import Ahorro from './views/Ahorro';
 import { jwtDecode } from 'jwt-decode';
@@ -17,7 +17,7 @@ function App() {
   return (
     <>
 
-      {location.pathname !== '/' && <Navbar/>}
+      {location.pathname !== '/' && <NavbarC/>}
 
     <Routes>
       <Route path='/' element={<Login/>}/>

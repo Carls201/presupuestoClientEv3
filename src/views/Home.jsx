@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/navBar/NavBar"; 
+import NavbarC from "../components/navBar/NavBar"; 
 import { getToken } from "../API/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchRoles } from "../redux/rolSlice";
@@ -38,9 +38,8 @@ const Home = () =>{
     //console.log(token);
     return (
       <>
-        <h1 className="text-3xl font-bold ">
-      Hello world!
-    </h1>
+        <h1 className="text-3xl font-bold ">Hello world!</h1>
+
       </>
     )
   
