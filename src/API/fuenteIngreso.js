@@ -1,4 +1,4 @@
-// metaahorro.js
+// categoriaGasto.js
 import axios from "axios";
 import { getToken } from "./auth";
 const token = getToken();

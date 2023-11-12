@@ -6,6 +6,8 @@ import rolReducer from './rolSlice';
 import ahorroSlice from './ahorroSlice';
 import fuenteSlice from './fuenteSlice';
 import ingresoSlice from './ingresoSlice';
+import categoriaSlice from './categoriaGastoSlice';
+import gastoSlice from './gastoSlice';
 
 
 export const store = configureStore({
@@ -17,5 +19,7 @@ export const store = configureStore({
     ahorros: ahorroSlice,
     fuentes: fuenteSlice,
     ingresos: ingresoSlice,
+    categorias: categoriaSlice,
+    gastos: gastoSlice
   },
 });

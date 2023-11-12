@@ -10,6 +10,8 @@ import Ahorro from './views/Ahorro';
 import { jwtDecode } from 'jwt-decode';
 import FuenteIngreso from './views/FuenteIngreso';
 import Ingreso from './views/Ingreso';
+import CategoriaGasto from './views/CategoriaGasto';
+import Gasto from './views/Gasto';
 
 function App() {
   const location = useLocation();
@@ -36,6 +38,9 @@ function App() {
       <Route path='/ahorro' element={<Ahorro/>}/>
       <Route path='/fuente' element={<FuenteIngreso/>}/>
       <Route path='/ingreso' element={<Ingreso/>}/>
+      <Route path='/categoria' element={<CategoriaGasto/>}/>
+      <Route path='/gasto' element={<Gasto/>}/>
+      
     </Routes>
     </>
   )
