@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getIngreso, deleteIngreso, updateIngreso, postIngreso } from '../API/ingreso';
 
+
 // BUSCAR INGRESO
 export const fetchIngreso = createAsyncThunk(
     'ingresos/fetchIngresos',
@@ -45,7 +46,7 @@ export const crearIngreso = createAsyncThunk(
     'ingreso/crearIngreso',
     async (ingreso, { rejectWithValue }) => {
       try {
-        const response = await postAhorro(ingreso);
+        const response = await postIngreso(ingreso);
         return response;
       } catch (error) {
         return rejectWithValue(error.response.data);

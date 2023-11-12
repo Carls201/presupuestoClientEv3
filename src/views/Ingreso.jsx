@@ -105,8 +105,12 @@ const Ingreso = () => {
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-    
-   
+    const fuenteOptions = fuenteState.fuentes && Array.isArray(fuenteState.fuentes)?
+    fuenteState.fuentes.map(fuente => ({
+        id: fuente.idFuente,
+        label: fuente.nombre
+    }))
+   : [];
     
 
     
@@ -123,11 +127,7 @@ const Ingreso = () => {
                                 <DynamicForm
                                     formData={[
                                         
-                                        { name: 'idFuente', label: 'Fuente', type: 'select', options: fuenteState.fuentes.map(fuente => ({
-                                            id: fuente.idFuente,
-                                            label: fuente.nombre
-                                        }) ) 
-                                    },
+                                        { name: 'idFuente', label: 'Fuente', type: 'select', options: fuenteOptions },
                                         { name: 'monto', label: 'Monto', type: 'number', defaultValue: '' },
                                     ]}
 
@@ -162,11 +162,7 @@ const Ingreso = () => {
                 onRequestClose={closeModalEdit} 
                 fields={[
                     { name: 'idIngreso', label: 'ID Ingreso', type: 'number', readOnly: true },
-                    { name: 'IdFuente', label: 'Fuente', type: 'select', options: fuenteState.fuentes.map(fuente => ({
-                        id: fuente.idFuente,
-                        label: fuente.nombre
-                    }) ) 
-                },
+                    { name: 'IdFuente', label: 'Fuente', type: 'select', options: fuenteOptions },
                     { name: 'monto', label: 'Monto', type: 'number' },
                 ]}
                 formValues={formValues}
