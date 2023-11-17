@@ -5,8 +5,9 @@ export const ingresarUsuario = createAsyncThunk(
   'usuarios/loginUsuario',
   async (usuario, { rejectWithValue }) => {
     try {
-      const data = await postUsuarioLogin(usuario);
-      return data;
+      const response = await postUsuarioLogin(usuario);
+      console.log(response);
+      return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, Button, useDisclosure, ModalContent } from "@nextui-org/react";
 import { resetErrorState } from '../redux/rolSlice'; 
 
-const ErrorModal = () => {
-    const error = useSelector((state) => state.roles.error);
-    const dispatch = useDispatch();
+const ErrorLogin = ({error}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
@@ -16,7 +13,6 @@ const ErrorModal = () => {
 
     const handleClose = () => {
         onClose();
-        dispatch(resetErrorState());
     };
 
     return (
@@ -25,7 +21,7 @@ const ErrorModal = () => {
 
                 <ModalHeader>Error</ModalHeader>
                 <ModalBody>
-                    <p>{error?.message || 'No hay mensaje de error'}</p>
+                    <p>{error}</p>
 
                     <Button auto onClick={handleClose} color="error">
                         Cerrar
@@ -36,4 +32,4 @@ const ErrorModal = () => {
     );
 };
 
-export default ErrorModal;
+export default ErrorLogin;

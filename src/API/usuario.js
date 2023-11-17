@@ -9,7 +9,7 @@ const config = {
   }
 }
 
-const API_URL = 'https://localhost:44330/api';
+const API_URL = 'http://localhost:5259/api';
 
 export const postUsuario = async (usuario) => {
   const response = await axios.post(`${API_URL}/usuario`, usuario);

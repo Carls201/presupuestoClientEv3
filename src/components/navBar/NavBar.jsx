@@ -24,7 +24,7 @@ const NavbarC = () => {
     <div className={styles.navbar}>
       <NavLink to='/home' className={({ isActive }) => (isActive ? styles.active : styles.navItem)}>Inicio</NavLink>
 
-      {decoId === 25 && (
+      {decoId === 1 && (
         <>
           <NavLink to='/rol' className={({ isActive }) => (isActive ? styles.active : styles.navItem)}>Roles</NavLink>
           <NavLink to='/usuario' className={({ isActive }) => (isActive ? styles.active : styles.navItem)}>Usuarios</NavLink>

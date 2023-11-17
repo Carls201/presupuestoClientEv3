@@ -15,7 +15,11 @@ import Gasto from './views/Gasto';
 
 function App() {
   const location = useLocation();
+
+
+
   const rol = parseInt(jwtDecode(localStorage.getItem('userToken')).IdRol);
+  
   
 
   return (
@@ -27,7 +31,7 @@ function App() {
       <Route path='/' element={<Login/>}/>
       <Route path='/home' element={<Home/>}/>
 
-      {rol === 25 && (
+      {rol === 1 && (
         <>
           <Route path='/usuario' element={<Usuario/>}/>
           <Route path='/rol' element={<Rol/>}/>

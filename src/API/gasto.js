@@ -9,7 +9,7 @@ const config = {
   }
 }
 
-const API_URL = 'https://localhost:44330/api';
+const API_URL = 'http://localhost:5259/api';
 
 // CREAR GASTO
 export const postGasto = async (data) => {
