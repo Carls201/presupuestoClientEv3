@@ -34,26 +34,26 @@ const Gasto = () => {
 
     useEffect(() => {
         dispatch(fetchGasto());
-    }, [gastoState.gastos]);
+    }, [dispatch]);
 
 
-    useEffect(() => { dispatch(fetchGasto()) }, []);
-    useEffect(() => { dispatch(meIdUsuario()) }, []);
-    useEffect(() => { dispatch(fetchCategoriaGasto()) }, []);
-    useEffect(() => { dispatch(fetchCategoriaGasto()) }, [categoriaState]);
+    useEffect(() => { dispatch(fetchCategoriaGasto()) }, [dispatch]);
+    useEffect(() => { dispatch(meIdUsuario()) }, [dispatch]);
 
     // HANDLES
     const handleFieldChange = (e) => {
         const { name, value } = e.target;
 
-        if (e.target.tagName === 'SELECT') {
+        if (name === 'IdCategoria') {
          
+            const categoriaSelected = categoriaOptions.find(option => option.id.toString() === value);
+            
             setFormValues(prev => ({
               ...prev,
-              [name]: parseInt(value, 10) 
+              IdCategoria: parseInt(value, 10),
+              categoria: categoriaSelected ? categoriaSelected.label : ''
             }));
           } else {
-            
             setFormValues(prev => ({ ...prev, [name]: value }));
           }
     };
@@ -68,8 +68,16 @@ const Gasto = () => {
 
     // EDITAR
     const showModalEdit = (data) => {
-        const {nombre, ...dataN } = data;
-        setFormValues({...dataN});
+        const categoriaId = categoriaOptions.find(categoria => categoria.label === data.categoria)?.id;
+
+        const initialValues = {
+            idGasto: data.idGasto,
+            idUsuario: data.idUsuario,
+            IdCategoria: categoriaId || '',
+            monto: data.monto
+        };
+        
+        setFormValues(initialValues);
         setIsModalOpenEdit(true);
     };
 
@@ -127,11 +135,11 @@ const Gasto = () => {
                                 <DynamicForm
                                     formData={[
                                         
-                                        { name: 'idCategoria', label: 'Categoria', type: 'select', options: categoriaOptions },
+                                        { name: 'IdCategoria', label: 'Categoria', type: 'select', options: categoriaOptions },
                                         { name: 'monto', label: 'Monto', type: 'number', defaultValue: '' },
                                     ]}
 
-                                    handleSave={handleSave}
+                                    handleSave={data => handleSave(data, onClose)}
                                     onClose={onClose}
                                 />
                             </ModalBody>
@@ -153,7 +161,7 @@ const Gasto = () => {
                 entity={selectedDelete} 
                 idField="idGasto"
                 confirmDelete={confirmDelete} 
-                entidad='idGasto' 
+                entidad='Gasto' 
                 accion='eliminar'
             />
 
@@ -162,7 +170,7 @@ const Gasto = () => {
                 onRequestClose={closeModalEdit} 
                 fields={[
                     { name: 'idGasto', label: 'ID Gasto', type: 'number', readOnly: true },
-                    { name: 'idCategoria', label: 'Categoria', type: 'select', options: categoriaOptions },
+                    { name: 'IdCategoria', label: 'Categoria', type: 'select', options: categoriaOptions },
                     { name: 'monto', label: 'Monto', type: 'number' },
                 ]}
                 formValues={formValues}

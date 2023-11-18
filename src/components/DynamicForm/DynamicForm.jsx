@@ -22,6 +22,7 @@ const DynamicForm = ({ formData, handleSave, onClose }) => {
                 if(field.type === 'select'){
                     return (
                         <Select
+                            key={field.name}
                             label={field.label}
                             placeholder={`Selecciona ${field.name}`}
                             name={field.name}

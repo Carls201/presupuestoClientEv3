@@ -33,6 +33,7 @@ export const editarIngreso = createAsyncThunk(
     'ingreso/editarIngreso',
     async (ingreso, { rejectWithValue }) => {
       try {
+        
         const response = await updateIngreso(ingreso);
         return response.data;
       } catch (error) {
@@ -73,20 +74,29 @@ const ingresosSlice = createSlice({
 
         // Eliminar ingreso
         [eliminarIngreso.fulfilled]: (state, action) => {
-            state.ingresos = state.ingresos.filter(ingreso => ingreso.id !== action.payload);
+            state.ingresos = state.ingresos.filter(ingreso => ingreso.idIngreso !== action.payload);
             state.success = true;
             state.message = 'ingreso eliminado correctamente';
         },
 
         // EDITAR ingreso
         [editarIngreso.fulfilled]: (state, action) => {
-            const index = state.ingresos.findIndex(ingreso => ingreso.id === action.payload.id);
+            const index = state.ingresos.findIndex(ingreso => ingreso.idIngreso === action.payload.idIngreso);
             if (index !== -1) {
-            state.ingresos[index] = action.payload;
+                const updatedIngreso = Object.entries(action.payload).reduce((newObj, [key, value]) => {
+                    if(value !== null) {
+                        newObj[key] = value;
+                    } 
+                    return newObj;
+                }, {});
+
+
+                state.ingresos[index] = {...state.ingresos[index], ...updatedIngreso}
             }
             state.success = true;
             state.message = 'ingreso actualizado correctamente';
         },
+        
         [editarIngreso.rejected]: (state, action) => {
             state.error = action.payload;
             state.success = false;

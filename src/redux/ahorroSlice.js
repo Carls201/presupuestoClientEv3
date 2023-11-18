@@ -7,7 +7,6 @@ export const fetchAhorro = createAsyncThunk(
     async(_, { rejectWithValue }) => {
         try {
             const response = await getAhorro();
-            console.log(response.data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -34,7 +33,6 @@ export const editarAhorro = createAsyncThunk(
     async (ahorro, { rejectWithValue }) => {
       try {
         const response = await updateAhorro(ahorro);
-        console.log(response.data);
         return response.data;
       } catch (error) {
         return rejectWithValue(error.response.data);
@@ -47,9 +45,9 @@ export const crearAhorro = createAsyncThunk(
     'ahorros/crearAhorro',
     async (ahorro, { rejectWithValue }) => {
       try {
-        const data = await postAhorro(ahorro);
-        console.log(data);
-        return data;
+        const response = await postAhorro(ahorro);
+        console.log(response);
+        return response;
       } catch (error) {
         return rejectWithValue(error.response.data);
       }

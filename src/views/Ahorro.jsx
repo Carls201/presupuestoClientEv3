@@ -34,28 +34,31 @@ const Ahorro = () => {
 
     useEffect(() => {
         dispatch(fetchAhorro());
-    }, [dispatch]);//ahorroState.ahorros
-
+    }, [dispatch]);
 
 
     useEffect(() => { dispatch(fetchMetas()) }, [dispatch]);
     useEffect(() => { dispatch(meIdUsuario()) }, [dispatch]);
 
     // HANDLES
+
+    
     const handleFieldChange = (e) => {
         const { name, value } = e.target;
-
-        if (e.target.tagName === 'SELECT') {
-         
+        if (name === 'IdMeta') {
+            // Encuentra el objeto de la meta correspondiente al ID seleccionado
+            const metaSelected = metaOptions.find(option => option.id.toString() === value);
+    
             setFormValues(prev => ({
-              ...prev,
-              [name]: parseInt(value, 10) 
+                ...prev,
+                IdMeta: parseInt(value, 10), // Actualiza el ID de la meta
+                meta: metaSelected ? metaSelected.label : '' // Actualiza el nombre de la meta para mostrar en el UI
             }));
-          } else {
-            
+        } else {
             setFormValues(prev => ({ ...prev, [name]: value }));
-          }
+        }
     };
+    
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -66,11 +69,26 @@ const Ahorro = () => {
     // FUNCIONES
 
     // EDITAR
+    
     const showModalEdit = (data) => {
-        const {nombre, ...dataN } = data;
-        setFormValues({...dataN});
+        // Calcula el valor inicial para el campo 'select' basado en la configuración de las opciones
+        const metaId = metaOptions.find(meta => meta.label === data.meta)?.id;
+    
+        const initialValues = {
+            idAhorro: data.idAhorro,
+            idUsuario: data.idUsuario,
+            IdMeta: metaId || '', // El valor inicial para el campo 'select'
+            monto: data.monto
+        };
+    
+        setFormValues(initialValues);
         setIsModalOpenEdit(true);
     };
+
+
+    
+    
+    
 
     const closeModalEdit = () => {
         setIsModalOpenEdit(false);
@@ -115,8 +133,6 @@ const Ahorro = () => {
     
    
     
-
-// console.log(ahorroState.ahorros);
     
     return (
         <div>
@@ -169,18 +185,7 @@ const Ahorro = () => {
                 onRequestClose={closeModalEdit} 
                 fields={[
                     { name: 'idAhorro', label: 'ID Ahorro', type: 'number', readOnly: true },
-                    { 
-                        name: 'IdMeta', 
-                        label: 'Meta', 
-                        type: 'select', 
-                        options: metaState.metas && Array.isArray(metaState.metas)
-                          ? metaState.metas.map(meta => ({
-                              id: meta.idMeta,
-                              label: meta.nombre
-                            }))
-                          : []
-                    },
-                      
+                    { name: 'IdMeta', label: 'Meta', type: 'select', options: metaOptions },
                     { name: 'monto', label: 'Monto', type: 'number' },
                 ]}
                 formValues={formValues}

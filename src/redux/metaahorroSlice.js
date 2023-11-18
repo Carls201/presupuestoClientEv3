@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getMetaAhorro, deleteMetaAhorro, updateMetaAhorro, postMetaAhorro } from '../API/metaahorro';
+import { getMetaAhorro, deleteMetaAhorro, updateMetaAhorro, postMetaAhorro } from '../API/metaahorro'; 
 
 // BUSCAR META
 export const fetchMetas = createAsyncThunk(

@@ -46,7 +46,7 @@ export const crearFuente = createAsyncThunk(
     async(fuente, { rejectWithValue }) => {
         try {
             const response = postFuenteIngreso(fuente);
-            return response.data;
+            return response;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -87,10 +87,19 @@ const fuentesSlice = createSlice({
             state.success = true;
             state.message = 'Fuente actualizada correctamente';
         },
+        [editarFuente.rejected]: (state, action) => {
+            state.error = action.payload;
+            state.success = false;
+            state.message = action.payload.Message;
+        },
 
         // CREAR FUENTE
         [crearFuente.fulfilled]: (state, action) => {
-            state.fuentes = action.payload;
+            const { ingresos, ...fuenteData } = action.payload;
+            if(state.fuentes === null){
+                state.fuentes = [];
+            }
+            state.fuentes.push(fuenteData);
             state.success = true;
             state.message = 'Fuente creada';
         }

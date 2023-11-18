@@ -21,6 +21,7 @@ export const eliminarGasto = createAsyncThunk(
     async(id, { rejectWithValue }) => {
         try {
             const response = await deleteGasto(id);
+            console.log(response);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -72,17 +73,25 @@ const gastoSlice = createSlice({
         },
 
         // Eliminar gasto
-        [editarGasto.fulfilled]: (state, action) => {
-            state.gastos = state.gastos.filter(gasto => gasto.id !== action.payload);
+        [eliminarGasto.fulfilled]: (state, action) => {
+            state.gastos = state.gastos.filter(gasto => gasto.idGasto !== action.payload);
             state.success = true;
             state.message = 'gasto eliminado correctamente';
         },
 
         // EDITAR gasto
         [editarGasto.fulfilled]: (state, action) => {
-            const index = state.gastos.findIndex(gasto => gasto.id === action.payload.id);
+            const index = state.gastos.findIndex(gasto => gasto.idGasto === action.payload.idGasto);
             if (index !== -1) {
-            state.gastos[index] = action.payload;
+
+                const updatedGasto = Object.entries(action.payload).reduce((newObj, [key, value]) => {
+                    if(value !== null) {
+                        newObj[key] = value;
+                    }
+                    return newObj;
+                }, {});
+
+                state.gastos[index] = { ...state.gastos[index], ...updatedGasto};
             }
             state.success = true;
             state.message = 'gasto actualizado correctamente';

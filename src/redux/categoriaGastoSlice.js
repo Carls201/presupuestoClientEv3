@@ -46,7 +46,7 @@ export const crearCategoriaGasto = createAsyncThunk(
     async(categoria, { rejectWithValue }) => {
         try {
             const response = postCategoriaGasto(categoria);
-            return response.data;
+            return response;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -88,9 +88,18 @@ const categoriasSlice = createSlice({
             state.message = 'categoria actualizada correctamente';
         },
 
+        [editarCategoriaGasto.rejected]: (state, action) => {
+            state.error = action.payload;
+            state.success = false;
+            state.message = action.payload.Message
+        },
         // CREAR categoria
         [crearCategoriaGasto.fulfilled]: (state, action) => {
-            state.categorias = action.payload;
+            const { gastos, ...categoriaData } = action.payload;
+            if(state.categorias === null){
+                state.categorias = [];
+            }
+            state.categorias.push(categoriaData);
             state.success = true;
             state.message = 'categoria creada';
         }

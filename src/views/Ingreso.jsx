@@ -24,7 +24,7 @@ const Ingreso = () => {
 
     const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
     const [selectedEdit, setSelectedEdit] = useState(null);
-
+    
     const [formValues, setFormValues] = useState({
         idIngreso: '',
         idUsuario: '',
@@ -34,23 +34,26 @@ const Ingreso = () => {
 
     useEffect(() => {
         dispatch(fetchIngreso());
-    }, [ingresoState.ingresos]);
+    }, [dispatch]);
+
+    useEffect(() => { dispatch(fetchFuentes()) }, [dispatch]);
+    useEffect(() => { dispatch(meIdUsuario()) }, [dispatch]);
 
 
-    useEffect(() => { dispatch(fetchIngreso()) }, []);
-    useEffect(() => { dispatch(meIdUsuario()) }, []);
-    useEffect(() => { dispatch(fetchFuentes()) }, []);
-    useEffect(() => { dispatch(fetchFuentes()) }, [fuenteState]);
+    
 
     // HANDLES
     const handleFieldChange = (e) => {
         const { name, value } = e.target;
 
-        if (e.target.tagName === 'SELECT') {
+        if (name === 'IdFuente') {
          
+            const fuenteSelected = fuenteOptions.find(option => option.id.toString() === value);
+
             setFormValues(prev => ({
               ...prev,
-              [name]: parseInt(value, 10) 
+              IdFuente: parseInt(value, 10),
+              fuente: fuenteSelected ? fuenteSelected.label: ''
             }));
           } else {
             
@@ -68,8 +71,17 @@ const Ingreso = () => {
 
     // EDITAR
     const showModalEdit = (data) => {
-        const {nombre, ...dataN } = data;
-        setFormValues({...dataN});
+        console.log(data);
+        const fuenteId = fuenteOptions.find(fuente => fuente.label === data.fuente)?.id;
+
+        const initialValues ={
+            idIngreso: data.idIngreso,
+            idUsuario: data.idUsuario,
+            IdFuente: fuenteId || '',
+            monto: data.monto
+        }
+        
+        setFormValues(initialValues);
         setIsModalOpenEdit(true);
     };
 
@@ -127,11 +139,11 @@ const Ingreso = () => {
                                 <DynamicForm
                                     formData={[
                                         
-                                        { name: 'idFuente', label: 'Fuente', type: 'select', options: fuenteOptions },
+                                        { name: 'IdFuente', label: 'Fuente', type: 'select', options: fuenteOptions },
                                         { name: 'monto', label: 'Monto', type: 'number', defaultValue: '' },
                                     ]}
 
-                                    handleSave={handleSave}
+                                    handleSave={data => handleSave(data, onClose)}
                                     onClose={onClose}
                                 />
                             </ModalBody>

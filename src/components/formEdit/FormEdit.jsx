@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactModal from 'react-modal';
 import styles from './FormEdit.module.css';
 ReactModal.setAppElement('#root');
@@ -7,6 +7,7 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
     const overlayClassName = `${styles.overlay} ${isOpen ? styles.enter : styles.exit}`;
     const contentClassName = `${styles.content} ${isOpen ? styles.enter : styles.exit}`;
 
+    
     const inputElements = fields.map((field) => {
         if (field.type === 'select') {
             return (
@@ -15,10 +16,9 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
                     <select
                         className={styles.input}
                         name={field.name}
-                        value={formValues[field.name] || 'default'}
-                        onChange={handleChange}
+                        value={formValues[field.name]} // Debería estar vinculado directamente al valor del estado
+                        onChange={handleChange} // Manejar cambios con la función proporcionada
                     >
-                        <option value="default" disabled>Seleccione un opcion</option>
                         {field.options.map(option => (
                             <option key={option.id} value={option.id}>{option.label}</option>
                         ))}
@@ -26,6 +26,7 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
                 </div>
             );
         } else {
+            // para otros tipos de input, se mantiene igual
             return (
                 <div className={styles.contentInput} key={field.name}>
                     <label className={styles.label}>{field.label}</label>
@@ -35,7 +36,7 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
                         name={field.name}
                         value={formValues[field.name] || ''}
                         onChange={handleChange}
-                        readOnly={field.readOnly && true}
+                        readOnly={field.readOnly}
                     />
                 </div>
             );
@@ -46,7 +47,7 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
         <ReactModal
             isOpen={isOpen}
             onRequestClose={onRequestClose}
-            contentLabel="Edit Modal"
+            contentLabel={`Edit ${entidad}`}
             overlayClassName={overlayClassName}
             className={contentClassName}
         >
