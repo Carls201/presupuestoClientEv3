@@ -9,8 +9,25 @@ const DynamicForm = ({ formData, handleSave, onClose }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
+        setFormValues({ ...formValues, [name]: value.trimStart() });
     };
+
+    const validateFields = ( values ) => {
+        for(let key in values) {
+            if(!values[key].trim()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const handleSubmit = () => {
+        if(validateFields(formValues)) {
+            handleSave(formValues, onClose);
+        } else {
+            alert("Completa todos los campos");
+        }
+    }
 
     let a = 0;
     
@@ -54,7 +71,7 @@ const DynamicForm = ({ formData, handleSave, onClose }) => {
             }
             )}
             
-            <Button color='warning' className='mb-5' onClick={ () => handleSave(formValues, onClose)}>Guardar</Button>
+            <Button color='warning' className='mb-5' onClick={ handleSubmit }>Guardar</Button>
         </form>
     );
 };

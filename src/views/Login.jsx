@@ -73,6 +73,8 @@ const Login = () => {
     const { name, value } = e.target;
     setUser(prev => ({ ...prev, [name]: value.replace(/\s/g, '') }));
     validateField(name, value);
+
+    setSubmitMessage('');
   }, [validateField]);
 
   const handleUserCreateChange = useCallback((e) => {
@@ -83,6 +85,7 @@ const Login = () => {
  
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
+    
     setSubmitMessage('');
 
     if(!user.email.trim() || !user.pass.trim()){
@@ -98,6 +101,20 @@ const Login = () => {
   const handleSubmitRegister = useCallback((e) =>{
     e.preventDefault();
     setSubmitMessage('');
+
+    let allFieldsValid = true;
+
+    Object.keys(userCreate).forEach(key => {
+      if(!userCreate[key].trim()){
+        allFieldsValid = false;
+        setValidationErrors(prev => ({ ...prev, [key]: 'Este campo es obligatorio' }));
+      }
+    });
+
+    if(!allFieldsValid){
+      setSubmitMessage('Completa todos los campos');
+      return;
+    }
 
     dispatch(crearUsuario(userCreate));
     setTimeout( ()=>setSubmitMessage('Registrando Usuario...'), 500);

@@ -60,8 +60,7 @@ const Ahorro = () => {
     };
     
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
+    const handleFormSubmit = () => {
         dispatch(editarAhorro(formValues));
         closeModalEdit();
     };

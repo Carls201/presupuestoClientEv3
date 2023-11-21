@@ -43,6 +43,26 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
         }
     });
 
+
+    const valiateFields = ( values ) => {
+        for ( let key in values ) {
+            if(typeof values[key] === 'string' && !values[key].trim()) {
+                return false;
+            }
+        } 
+
+        return true;
+    }
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if( valiateFields(formValues) ) {
+            handleSubmit(formValues);
+        } else {
+            alert('Completa todos los campos');
+        }
+    }
+
     return (
         <ReactModal
             isOpen={isOpen}
@@ -51,10 +71,10 @@ const FormModalEdit = ({ isOpen, onRequestClose, fields, formValues, handleChang
             overlayClassName={overlayClassName}
             className={contentClassName}
         >
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form className={styles.form} onSubmit={handleFormSubmit}>
                 <h2 className={styles.text}>Editar {entidad}</h2>
                 {inputElements}
-                <button className={`${styles.button} ${styles.submitButton}`} type="submit">
+                <button className={`${styles.button} ${styles.submitButton}`} type="submit" >
                     Editar
                 </button>
             </form>
