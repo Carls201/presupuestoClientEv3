@@ -4,8 +4,9 @@ import { Button,  Table,  TableHeader,  TableBody,  TableColumn,  TableRow,  Tab
 
 
 
-const TableData = ({ data, idField, onEdit, onDelete }) => {
+const TableData = ({ data, idField, onEdit, onDelete, esRol }) => {
 
+    
     
     if (!data || data.length === 0) {
         return <p>No hay datos para mostrar.</p>;
@@ -33,9 +34,38 @@ const TableData = ({ data, idField, onEdit, onDelete }) => {
                                 <TableCell key={cellIndex} className='text-center'>{value}</TableCell>
                             ))}
                             <TableCell className='text-center'>
+                                {
+                                    esRol ? (
+
+                                        (item.rol1 === 'admin'|| item.rol1 === 'usuario')? (
+                                            null
+                                        ):(
+                                            <>
+                                            <Button className='m-4' color='danger' onClick={() => onDelete(item)}>Eliminar</Button>
+                                            <Button color='warning' onClick={() => onEdit(item)}>Editar</Button>
+                                            
+                                            </>
+    
+                                        )
+                                    ): (
+                                        <>
+                                        
+                                            <Button className='m-4' color='danger' onClick={() => onDelete(item)}>Eliminar</Button>
+                                            <Button color='warning' onClick={() => onEdit(item)}>Editar</Button>
+                                        </>
+                                    )
+
+                                    
+                                        
+                                    
+
                                 
-                                <Button className='m-4' color='danger' onClick={() => onDelete(item)}>Eliminar</Button>
-                                <Button color='warning' onClick={() => onEdit(item)}>Editar</Button>
+                                    
+
+                                    
+                                }
+
+                                
                                 
                             </TableCell>
                         </TableRow>

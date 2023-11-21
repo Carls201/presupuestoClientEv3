@@ -4,6 +4,19 @@ import { getToken } from '../API/auth';
 import { jwtDecode } from "jwt-decode";
 
 
+// Buscar usuarios
+export const fetchUsuarios = createAsyncThunk(
+  'usuarios/fetchUsuarios',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getUsuarios();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 // Eliminar Usuario
 export const eliminarUsuario = createAsyncThunk(
   'usuarios/eliminarUsuario',
@@ -22,8 +35,9 @@ export const editarUsuario = createAsyncThunk(
   'usuarios/editarUsuario',
   async (usuario, { rejectWithValue }) => {
     try {
-      console.log('Usuario a actualizar:', usuario);
+      console.log(usuario);
       const response = await updateUsuario(usuario);
+      
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -37,26 +51,15 @@ export const crearUsuario = createAsyncThunk(
   'usuarios/crearUsuario',
   async (usuario, { rejectWithValue }) => {
     try {
-      const data = await postUsuario(usuario);
-      return data;
+      const response = await postUsuario(usuario);
+      return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-// Buscar usuarios
-export const fetchUsuarios = createAsyncThunk(
-  'usuarios/fetchUsuarios',
-  async (_, { rejectWithValue }) => {
-    try {
-      const data = await getUsuarios();
-      return data.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+
 
 // Busxar token 
 export const meIdUsuario = createAsyncThunk(
@@ -93,14 +96,29 @@ const usuariosSlice = createSlice({
     }
   },
   extraReducers: {
-    [crearUsuario.pending]: (state, action) => {
-      // Cambia el estado a loading o añade flags como necesites
+
+    [fetchUsuarios.fulfilled]: (state, action) => {
+      state.usuarios = action.payload;
+      state.success = true;
+      state.message = 'Usuarios cargados';
     },
+
     // Editar Usuario
     [editarUsuario.fulfilled]: (state, action) => {
-      const index = state.usuarios.findIndex(usuario => usuario.id === action.payload.id);
+
+      const index = state.usuarios.findIndex(usuario => usuario.idUsuario === action.payload.idUsuario);
       if (index !== -1) {
-        state.usuarios[index] = action.payload;
+        const updatedUsuario = Object.entries(action.payload).reduce((newObj, [key, value]) => {
+          if(value !== null) {
+            newObj[key] = value;
+          }
+          return newObj;
+        }, {});
+
+        state.usuarios[index] = {
+          ...state.usuarios[index],
+          ...updatedUsuario
+        };
       }
       state.success = true;
       state.message = 'Usuario actualizado correctamente';
@@ -114,18 +132,12 @@ const usuariosSlice = createSlice({
     // Eliminar Usuario
     [eliminarUsuario.fulfilled]: (state, action) => {
       // Elimina el usuario del estado. Suponiendo que la acción incluye el ID del usuario.
-      state.usuarios = state.usuarios.filter(usuario => usuario.id !== action.meta.arg);
+      state.usuarios = state.usuarios.filter(usuario => usuario.idUsuario !== action.payload);
       state.success = true;
       state.message = 'Usuario eliminado correctamente';
     },
 
-    // Buscar Usuario
-    [fetchUsuarios.fulfilled]: (state, action) => {
-     
-      state.usuarios = action.payload;
-      state.success = true;
-      state.message = 'Usuarios cargados';
-    },
+   
 
     // Obtener token
     [meIdUsuario.fulfilled]: (state, action) => {
@@ -136,15 +148,14 @@ const usuariosSlice = createSlice({
 
     // Crear Usuario
     [crearUsuario.fulfilled]: (state, action) => {
-      state.usuario = action.payload;
+
+      if(state.usuarios === null){
+        state.usuarios = [];
+      }
+      state.usuarios.push(action.payload);
       state.success = true;
       state.message = 'Usuario guardado';
-    },
-    [crearUsuario.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.success = false;
-      state.message = action.payload.Message;
-    },
+    }
   },
 });
 

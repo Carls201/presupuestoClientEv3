@@ -7,9 +7,9 @@ export const fetchRoles = createAsyncThunk(
     async(_, { rejectWithValue }) => {
         try {
             const data = await getRol();
-            return data;
+            return data.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response.data); 
         }
     }
 )
@@ -20,7 +20,7 @@ export const eliminarRol = createAsyncThunk(
     async(id, { rejectWithValue }) => {
         try {
             const data = await deleteRol(id);
-            return data;
+            return data.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -84,14 +84,9 @@ const rolesSlice = createSlice({
 
         // Eliminar Usuario
         [eliminarRol.fulfilled]: (state, action) => {
-            state.roles = state.roles.data.filter(rol => rol.id !== action.meta.arg);
+            state.roles = state.roles.data.filter(rol => rol.id !== action.payload);
             state.success = true;
             state.message = 'Rol eliminado correctamente';
-        },
-        [eliminarRol.rejected]: (state, action) => {
-            state.error = action.payload;
-            state.success = false;
-            state.message = action.payload.Message;
         },
 
         // EDITAR USUARIO

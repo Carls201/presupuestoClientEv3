@@ -31,7 +31,7 @@ const Rol = () => {
 
     useEffect(() => {
         dispatch(fetchRoles());
-    }, [rolState]);
+    }, [rolState.roles]);
 
     
 
@@ -116,10 +116,11 @@ const Rol = () => {
             </Modal>
 
             <TableData
-                data={rolState.roles.data}
+                data={rolState.roles}
                 idField="idRol"
                 onEdit={showModalEdit}
                 onDelete={showModalDelete}
+                esRol = {true}
             />
 
             <ModalDelete
@@ -128,7 +129,7 @@ const Rol = () => {
                 entity={selectedDelete} 
                 idField="idRol"
                 confirmDelete={confirmDelete} 
-                entidad='rol1' 
+                entidad='Rol' 
                 accion='eliminar'
             />
 
